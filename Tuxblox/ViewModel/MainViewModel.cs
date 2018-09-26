@@ -11,28 +11,65 @@ namespace Tuxblox.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
-        private readonly IDataService _dataService;
+        private readonly IDataService _DataService;
+        private readonly RefreshWorker _RefreshWorker;
+
+        private string _TuxBloxTitle = string.Empty;
+        private string _NodeStatus;
+        private int _BlockHeight;
+        private int _Connections;
 
         /// <summary>
-        /// The <see cref="WelcomeTitle" /> property's name.
+        /// Gets and sets the TuxBloxTitle property.
         /// </summary>
-        public const string WelcomeTitlePropertyName = "WelcomeTitle";
-
-        private string _welcomeTitle = string.Empty;
-
-        /// <summary>
-        /// Gets the WelcomeTitle property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string WelcomeTitle
+        public string TuxBloxTitle
         {
-            get
-            {
-                return _welcomeTitle;
-            }
+            get { return _TuxBloxTitle; }
+            set { Set(ref _TuxBloxTitle, value); }
+        }
+
+        /// <summary>
+        /// Gets and sets the NodeStatus property.
+        /// </summary>
+        public string NodeStatus
+        {
+            get { return _NodeStatus; }
             set
             {
-                Set(ref _welcomeTitle, value);
+                if (_NodeStatus != value)
+                {
+                    Set(ref _NodeStatus, value);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets and sets the BlockHeight property.
+        /// </summary>
+        public int BlockHeight
+        {
+            get { return _BlockHeight; }
+            set
+            {
+                if (_BlockHeight != value)
+                {
+                    Set(ref _BlockHeight, value);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets and sets the Connections property.
+        /// </summary>
+        public int Connections
+        {
+            get { return _Connections; }
+            set
+            {
+                if (_Connections != value)
+                {
+                    Set(ref _Connections, value);
+                }
             }
         }
 
@@ -41,25 +78,34 @@ namespace Tuxblox.ViewModel
         /// </summary>
         public MainViewModel(IDataService dataService)
         {
-            _dataService = dataService;
-            _dataService.GetData(
-                (item, error) =>
+            _DataService = dataService;
+            _DataService.GetAppTitle((name, version, error) =>
+            {
+                if (error != null)
                 {
-                    if (error != null)
-                    {
-                        // Report error here
-                        return;
-                    }
+                    // Report error here
+                    return;
+                }
 
-                    WelcomeTitle = item.Title;
+                TuxBloxTitle = string.Format($"{name} {version}");
+            });
+
+            _RefreshWorker = new RefreshWorker(50, () =>
+            {
+                _DataService.GetNodeStatus((nodeStatus) =>
+                {
+                    NodeStatus = nodeStatus?.Status;
+                    BlockHeight = nodeStatus?.BlockHeight ?? 0;
+                    Connections = nodeStatus?.Connections ?? 0;
                 });
+            });
         }
 
-        ////public override void Cleanup()
-        ////{
-        ////    // Clean up if needed
+        public override void Cleanup()
+        {
+            _RefreshWorker.Stop();
 
-        ////    base.Cleanup();
-        ////}
+            base.Cleanup();
+        }
     }
 }

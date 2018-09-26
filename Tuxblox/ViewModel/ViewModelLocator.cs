@@ -9,9 +9,8 @@
   DataContext="{Binding Source={StaticResource Locator}, Path=ViewModelName}"
 */
 
-using GalaSoft.MvvmLight;
+using CommonServiceLocator;
 using GalaSoft.MvvmLight.Ioc;
-using Microsoft.Practices.ServiceLocation;
 using Tuxblox.Model;
 
 namespace Tuxblox.ViewModel
@@ -28,31 +27,46 @@ namespace Tuxblox.ViewModel
         static ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-
-            if (ViewModelBase.IsInDesignModeStatic)
-            {
-                SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();
-            }
-            else
-            {
-                SimpleIoc.Default.Register<IDataService, DataService>();
-            }
-
+            SimpleIoc.Default.Register<IDataService, DataService>();
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<BalanceViewModel>();
+            SimpleIoc.Default.Register<TransactionsViewModel>();
+            SimpleIoc.Default.Register<SendViewModel>();
         }
 
         /// <summary>
         /// Gets the Main property.
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+        //    "CA1822:MarkMembersAsStatic",
+        //    Justification = "This non-static member is needed for data binding purposes.")]
         public MainViewModel Main
         {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<MainViewModel>();
-            }
+            get { return ServiceLocator.Current.GetInstance<MainViewModel>(); }
+        }
+
+        /// <summary>
+        /// Gets the Balance property.
+        /// </summary>
+        public BalanceViewModel Balance
+        {
+            get { return ServiceLocator.Current.GetInstance<BalanceViewModel>(); }
+        }
+
+        /// <summary>
+        /// Gets the Transactions property.
+        /// </summary>
+        public TransactionsViewModel Transactions
+        {
+            get { return ServiceLocator.Current.GetInstance<TransactionsViewModel>(); }
+        }
+
+        /// <summary>
+        /// Gets the Send property.
+        /// </summary>
+        public SendViewModel Send
+        {
+            get { return ServiceLocator.Current.GetInstance<SendViewModel>(); }
         }
 
         /// <summary>
@@ -60,6 +74,12 @@ namespace Tuxblox.ViewModel
         /// </summary>
         public static void Cleanup()
         {
+            ServiceLocator.Current.GetInstance<MainViewModel>().Cleanup();
+            ServiceLocator.Current.GetInstance<BalanceViewModel>().Cleanup();
+            ServiceLocator.Current.GetInstance<TransactionsViewModel>().Cleanup();
+            ServiceLocator.Current.GetInstance<SendViewModel>().Cleanup();
+
+            WalletManager.Get().Stop();
         }
     }
 }

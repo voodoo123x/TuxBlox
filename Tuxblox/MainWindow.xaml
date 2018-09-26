@@ -5,28 +5,65 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ignore="http://www.galasoft.ch/ignore"
         mc:Ignorable="d ignore"
-        Height="300"
-        Width="300"
-        Title="MVVM Light Application"
+        Height="800" Width="1200"
+        Title="{Binding TuxBloxTitle}"
         DataContext="{Binding Main, Source={StaticResource Locator}}">
-    
+
     <Window.Resources>
         <ResourceDictionary>
+            <BitmapImage x:Key="TuxLogoImage" UriSource="/Media/TuxLogo.png"/>
+
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Skins/MainSkin.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid x:Name="LayoutRoot">
+    <Grid x:Name="LayoutRoot" Style="{DynamicResource MainWindow}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="175"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <TextBlock FontSize="36"
-                   FontWeight="Bold"
-                   Foreground="Purple"
-                   Text="{Binding WelcomeTitle}"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Center"
-                   TextWrapping="Wrap" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
+        <Image Grid.Column="0" Grid.Row="0" Source="{StaticResource TuxLogoImage}" Margin="10"/>
+
+        <Grid Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Margin="10">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,2">
+                    <TextBlock Text="Status: " Style="{DynamicResource BaseTextBlock}"/>
+                    <TextBlock Text="{Binding NodeStatus}" Style="{DynamicResource BaseTextBlock}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,2">
+                    <TextBlock Text="Block Height: " Style="{DynamicResource BaseTextBlock}"/>
+                    <TextBlock Text="{Binding BlockHeight}" Style="{DynamicResource BaseTextBlock}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,2">
+                    <TextBlock Text="Connections: " Style="{DynamicResource BaseTextBlock}"/>
+                    <TextBlock Text="{Binding Connections}" Style="{DynamicResource BaseTextBlock}"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+        <StackPanel Grid.Column="0" Grid.Row="2">
+            <Button Content="Transactions" Style="{DynamicResource PanelButton}" Click="Transactions_Button_Click"/>
+            <Button Content="Send" Style="{DynamicResource PanelButton}" Click="Send_Button_Click"/>
+            <Button Content="Receive" Style="{DynamicResource PanelButton}"/>
+        </StackPanel>
+
+        <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Frame Grid.Row="0" x:Name="_BalanceFrame" NavigationUIVisibility="Hidden"/>
+            <Frame Grid.Row="1" x:Name="_ContentFrame" NavigationUIVisibility="Hidden"/>
+        </Grid>
     </Grid>
 </Window>

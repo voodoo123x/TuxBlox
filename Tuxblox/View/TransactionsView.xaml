@@ -1,0 +1,88 @@
+﻿<Page x:Class="Tuxblox.View.TransactionsView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Tuxblox.View"
+      xmlns:converters="clr-namespace:Tuxblox.Converters"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      DataContext="{Binding Transactions, Source={StaticResource Locator}}">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <converters:IsPendingToFontStyleConverter x:Key="PendingStyleConverter"/>
+            <converters:IsPendingToVisibilityConverter x:Key="PendingVisibilityConverter"/>
+            <converters:TxCategoryToPendingMessageConverter x:Key="TxCategoryMessageConverter"/>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="..\Skins/MainSkin.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid Style="{DynamicResource ContentGrid}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Column="0" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!--<TextBlock Grid.Row="0" Text="Transactions" Style="{DynamicResource SmallHeaderTextBlock}" TextDecorations="Underline"/>-->
+
+            <ListView Grid.Column="0" Grid.Row="1" Margin="0,20" Style="{DynamicResource TransactionListView}" ItemsSource="{Binding Transactions}" 
+                      HorizontalContentAlignment="Stretch">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="0" Margin="0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal">
+                                    <TextBlock Style="{DynamicResource MediumTextTextBlock}" Text="{Binding TransactionDate}"
+                                               FontStyle="{Binding IsPending, Converter={StaticResource PendingStyleConverter}}"/>
+                                    <TextBlock Style="{DynamicResource MediumTextTextBlock}" 
+                                               Text="{Binding Category, Converter={StaticResource TxCategoryMessageConverter}}"
+                                               FontStyle="{Binding IsPending, Converter={StaticResource PendingStyleConverter}}"
+                                               Visibility="{Binding IsPending, Converter={StaticResource PendingVisibilityConverter}}"/>
+                                </StackPanel>
+                                
+                                <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal">
+                                    <TextBlock Text="{Binding TransactionSummary}" Style="{DynamicResource MediumTextTextBlock}" Margin="0,0,10,0"
+                                               FontStyle="{Binding IsPending, Converter={StaticResource PendingStyleConverter}}"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Amount}" Style="{DynamicResource LargeTextTextBlock}" FontStyle="{Binding IsPending, Converter={StaticResource PendingStyleConverter}}"/>
+                                <TextBlock Text=" TUX" Style="{DynamicResource LargeTextTextBlock}" FontStyle="{Binding IsPending, Converter={StaticResource PendingStyleConverter}}"/>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </Grid>
+</Page>

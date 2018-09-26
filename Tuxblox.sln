@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tuxblox", "Tuxblox\Tuxblox.csproj", "{6A38146B-8DD0-4FE4-88FE-4AEF851ED0CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tuxblox.Tests", "Tuxblox.Tests\Tuxblox.Tests.csproj", "{BC75BC52-28F4-4795-9024-CC15EBB105BB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{6A38146B-8DD0-4FE4-88FE-4AEF851ED0CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A38146B-8DD0-4FE4-88FE-4AEF851ED0CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A38146B-8DD0-4FE4-88FE-4AEF851ED0CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC75BC52-28F4-4795-9024-CC15EBB105BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC75BC52-28F4-4795-9024-CC15EBB105BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC75BC52-28F4-4795-9024-CC15EBB105BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC75BC52-28F4-4795-9024-CC15EBB105BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

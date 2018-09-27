@@ -19,6 +19,24 @@ namespace Tuxblox.ViewModel
 
         public IList<TransactionEntity> Transactions { get; set; }
 
+        private string _TransactionViewHeaderText;
+
+        /// <summary>
+        /// Gets or sets the TransactionViewHeaderText property.
+        /// </summary>
+        public string TransactionViewHeaderText
+        {
+            get { return _TransactionViewHeaderText; }
+
+            set
+            {
+                if (_TransactionViewHeaderText != value)
+                {
+                    Set(ref _TransactionViewHeaderText, value);
+                }
+            }
+        }
+
         /// <summary>
         /// Initializes a new instance of the TransactionsViewModel class.
         /// </summary>
@@ -45,6 +63,15 @@ namespace Tuxblox.ViewModel
 
         private void UpdateTransactionList(IEnumerable<TransactionEntity> newTxs)
         {
+            if (newTxs.Any())
+            {
+                TransactionViewHeaderText = string.Empty;
+            }
+            else
+            {
+                TransactionViewHeaderText = "No Transactions Found";
+            }
+
             if (newTxs == null)
             {
                 return;

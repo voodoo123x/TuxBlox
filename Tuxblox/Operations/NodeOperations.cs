@@ -10,8 +10,6 @@ namespace Tuxblox.Operations
 {
     public static class NodeOperations
     {
-        private static ASCIIEncoding encoder = new ASCIIEncoding();
-
         /// <summary>
         /// Get status and header info of local running node.
         /// </summary>
@@ -20,13 +18,35 @@ namespace Tuxblox.Operations
         {
             var cliResult = MakeCliCall("getnetworkinfo");
 
-            int connections = cliResult.connections;
+            var connections = new int();
+
+            try
+            {
+                connections = cliResult.connections;
+            }
+            catch
+            {
+                connections = 0;
+            }
 
             cliResult = MakeCliCall("getblockchaininfo");
 
-            int blockHeight = cliResult.blocks;
-            int headers = cliResult.headers;
-            var status = headers <= blockHeight ? "Up to date" : "Updating";
+            var blockHeight = new int();
+            var headers = new int();
+
+            try
+            {
+                blockHeight = cliResult.blocks;
+                headers = cliResult.headers;
+            }
+            catch
+            {
+                blockHeight = 0;
+                headers = 0;
+            }
+
+            var percentageComplete = string.Format("Updating ({0}%)", headers != 0 ? Math.Floor(((decimal)blockHeight / headers) * 100).ToString() : "0");
+            var status = (headers > 0 && headers <= blockHeight) ? "Up to date" : percentageComplete;
 
             return new NodeStatusEntity
             {
@@ -44,11 +64,20 @@ namespace Tuxblox.Operations
         {
             var cliResult = MakeCliCall("getwalletinfo");
 
-            string balance = cliResult.balance;
+            var balance = new decimal();
+
+            try
+            {
+                balance = cliResult.balance;
+            }
+            catch
+            {
+                balance = 0;
+            }
 
             return new BalanceEntity
             {
-                TotalBalance = decimal.Parse(balance)
+                TotalBalance = balance
             };
         }
 

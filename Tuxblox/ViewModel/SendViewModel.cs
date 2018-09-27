@@ -196,8 +196,8 @@ namespace Tuxblox.ViewModel
 
         private void OnFillMax()
         {
-            var balance = WalletManager.Get().Value("Balance", false) as BalanceEntity;
-            SendAmount = Convert.ToString(balance.TotalBalance);
+            var balance = WalletManager.Get().Value("Balance") as BalanceEntity;
+            SendAmount = Convert.ToString(balance?.TotalBalance);
         }
 
         private RelayCommand _ResetCommand;

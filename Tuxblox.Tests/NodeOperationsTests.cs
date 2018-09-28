@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+using System.Linq;
 using Tuxblox.Operations;
 
 namespace Tuxblox.Tests
@@ -25,6 +25,13 @@ namespace Tuxblox.Tests
         public void TestGetTransactions()
         {
             var result = NodeOperations.GetTransactions();
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        public void TestGetAddresses()
+        {
+            var result = NodeOperations.GetAddresses();
             Assert.IsNotNull(result);
         }
 

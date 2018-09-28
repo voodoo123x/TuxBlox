@@ -137,6 +137,33 @@ namespace Tuxblox.Operations
         }
 
         /// <summary>
+        /// Get list of addresses associated with local wallet.
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<AddressEntity> GetAddresses()
+        {
+            var returnAddresses = new List<AddressEntity>();
+            var accounts = MakeCliCall("listaccounts");
+
+            try
+            {
+                foreach (var account in accounts)
+                {
+                    var command = string.Format("getaddressesbyaccount \"{0}\"", account.Name);
+                    var addresses = MakeCliCall(command);
+
+                    foreach (var addr in addresses)
+                    {
+                        returnAddresses.Add(new AddressEntity { Address = addr, Label = account.Name });
+                    }
+                }
+            }
+            catch { }
+
+            return returnAddresses;
+        }
+
+        /// <summary>
         /// Verifies that specified address is valid for this network.
         /// </summary>
         /// <param name="address"></param>
@@ -186,6 +213,31 @@ namespace Tuxblox.Operations
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Gets a new address with specified label for the account.
+        /// </summary>
+        /// <param name="label">Account (label) new account will be associated with.</param>
+        /// <returns></returns>
+        public static AddressEntity GetNewAddress(string label)
+        {
+            AddressEntity returnAddress = null;
+
+            var command = string.Format("getnewaddress \"{0}\"", label);
+            var cliResult = MakeCliCall(command);
+
+            try
+            {
+                string newAddress = Convert.ToString(cliResult);
+                if (!string.IsNullOrEmpty(newAddress))
+                {
+                    returnAddress = new AddressEntity { Address = newAddress, Label = label };
+                }
+            }
+            catch { }
+
+            return returnAddress;
         }
 
         private static dynamic MakeCliCall(string command)

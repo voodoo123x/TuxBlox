@@ -53,7 +53,7 @@
         <StackPanel Grid.Column="0" Grid.Row="2">
             <Button Content="Transactions" Style="{DynamicResource PanelButton}" Click="Transactions_Button_Click"/>
             <Button Content="Send" Style="{DynamicResource PanelButton}" Click="Send_Button_Click"/>
-            <Button Content="Receive" Style="{DynamicResource PanelButton}"/>
+            <Button Content="Receive" Style="{DynamicResource PanelButton}" Click="Receive_Button_Click"/>
         </StackPanel>
 
         <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="3">

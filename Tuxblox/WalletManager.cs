@@ -130,6 +130,7 @@ namespace Tuxblox
         {
             UpdateWalletBalance();
             UpdateTransactions();
+            UpdateAddresses();
             UpdateStatus();
             _FirstLoadComplete = true;
         }
@@ -153,6 +154,12 @@ namespace Tuxblox
         {
             var transactions = NodeOperations.GetTransactions();
             _Values["Transactions"] = transactions;
+        }
+
+        private void UpdateAddresses()
+        {
+            var addresses = NodeOperations.GetAddresses();
+            _Values["Addresses"] = addresses;
         }
 
         private void UpdateStatus()

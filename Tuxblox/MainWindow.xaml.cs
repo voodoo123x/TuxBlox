@@ -14,6 +14,7 @@ namespace Tuxblox
         private BalanceView _BalancePage;
         private TransactionsView _TransactionsPage;
         private SendView _SendView;
+        private AddressesView _AddressView;
 
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
@@ -37,6 +38,11 @@ namespace Tuxblox
         private void Send_Button_Click(object sender, RoutedEventArgs e)
         {
             LoadPageIntoFrame(_ContentFrame, _SendView, typeof(SendView));
+        }
+
+        private void Receive_Button_Click(object sender, RoutedEventArgs e)
+        {
+            LoadPageIntoFrame(_ContentFrame, _AddressView, typeof(AddressesView));
         }
 
         private void LoadPageIntoFrame(Frame frame, object pageObject, Type pageType)

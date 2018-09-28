@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Tuxblox.Model;
@@ -81,14 +82,14 @@ namespace Tuxblox.ViewModel
 
             foreach (var tx in newTxs)
             {
-                if (!Transactions.Any(oldTx => string.Equals(oldTx.TxId, tx.TxId, System.StringComparison.Ordinal)))
+                if (!Transactions.Any(oldTx => string.Equals(oldTx.TxId, tx.TxId, StringComparison.Ordinal)))
                 {
                     Transactions.Add(tx);
                     notifyTxChange = true;
                 }
                 else 
                 {
-                    var existingTx = Transactions.First(oldTx => string.Equals(oldTx.TxId, tx.TxId, System.StringComparison.Ordinal));
+                    var existingTx = Transactions.First(oldTx => string.Equals(oldTx.TxId, tx.TxId, StringComparison.Ordinal));
 
                     notifyTxChange = existingTx.Confirmations <= 0 && tx.Confirmations > 0;
                     existingTx.Confirmations = tx.Confirmations;

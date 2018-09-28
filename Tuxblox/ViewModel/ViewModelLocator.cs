@@ -32,6 +32,7 @@ namespace Tuxblox.ViewModel
             SimpleIoc.Default.Register<BalanceViewModel>();
             SimpleIoc.Default.Register<TransactionsViewModel>();
             SimpleIoc.Default.Register<SendViewModel>();
+            SimpleIoc.Default.Register<AddressesViewModel>();
         }
 
         /// <summary>
@@ -70,6 +71,14 @@ namespace Tuxblox.ViewModel
         }
 
         /// <summary>
+        /// Gets the Addresses property.
+        /// </summary>
+        public AddressesViewModel Addresses
+        {
+            get { return ServiceLocator.Current.GetInstance<AddressesViewModel>(); }
+        }
+
+        /// <summary>
         /// Cleans up all the resources.
         /// </summary>
         public static void Cleanup()
@@ -78,6 +87,7 @@ namespace Tuxblox.ViewModel
             ServiceLocator.Current.GetInstance<BalanceViewModel>().Cleanup();
             ServiceLocator.Current.GetInstance<TransactionsViewModel>().Cleanup();
             ServiceLocator.Current.GetInstance<SendViewModel>().Cleanup();
+            ServiceLocator.Current.GetInstance<AddressesViewModel>().Cleanup();
 
             WalletManager.Get().Stop();
         }

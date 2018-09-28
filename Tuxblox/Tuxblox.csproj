@@ -79,6 +79,7 @@
     <Compile Include="Converters\IsPendingToFontStyleConverter.cs" />
     <Compile Include="Converters\TxCategoryToPendingMessageConverter.cs" />
     <Compile Include="Model\DataService.cs" />
+    <Compile Include="Model\Entities\AddressEntity.cs" />
     <Compile Include="Model\Entities\NodeStatusEntity.cs" />
     <Compile Include="Model\Entities\OverviewEntity.cs" />
     <Compile Include="Model\Entities\TransactionEntity.cs" />
@@ -87,12 +88,16 @@
     <Compile Include="RefreshWorker.cs" />
     <Compile Include="ViewModel\BalanceViewModel.cs" />
     <Compile Include="ViewModel\SendViewModel.cs" />
+    <Compile Include="ViewModel\AddressesViewModel.cs" />
     <Compile Include="ViewModel\TransactionsViewModel.cs" />
     <Compile Include="View\BalanceView.xaml.cs">
       <DependentUpon>BalanceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SendView.xaml.cs">
       <DependentUpon>SendView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AddressesView.xaml.cs">
+      <DependentUpon>AddressesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TransactionsView.xaml.cs">
       <DependentUpon>TransactionsView.xaml</DependentUpon>
@@ -119,6 +124,10 @@
     <Page Include="View\SendView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AddressesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\TransactionsView.xaml">
       <SubType>Designer</SubType>

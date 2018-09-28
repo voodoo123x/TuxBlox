@@ -36,6 +36,13 @@ namespace Tuxblox.Model
             callback(transactions);
         }
 
+        public void GetAddresses(Action<IEnumerable<AddressEntity>> callback)
+        {
+            var addresses = WalletManager.Get().Value("Addresses") as IEnumerable<AddressEntity>;
+
+            callback(addresses);
+        }
+
         public void CreateTransaction(string address, decimal amount, decimal fee, Action<string> callback)
         {
             var txResult = NodeOperations.CreateTransaction(address, amount, fee);

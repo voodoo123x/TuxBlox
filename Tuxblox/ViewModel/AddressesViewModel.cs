@@ -169,25 +169,6 @@ namespace Tuxblox.ViewModel
             NewAddressLabel = string.Empty;
         }
 
-        private RelayCommand<string> _CopyAddressCommand;
-        public RelayCommand<string> CopyAddressCommand
-        {
-            get
-            {
-                if (_CopyAddressCommand == null)
-                {
-                    _CopyAddressCommand = new RelayCommand<string>(OnCopyAddress);
-                }
-
-                return _CopyAddressCommand;
-            }
-        }
-
-        private void OnCopyAddress(string param)
-        {
-            Clipboard.SetText(param);
-        }
-
         #endregion
     }
 }

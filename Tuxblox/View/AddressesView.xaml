@@ -63,7 +63,7 @@
                                 <TextBlock Text="{Binding Address}" Style="{DynamicResource BaseTextBlock}">
                                     <TextBlock.ContextMenu>
                                         <ContextMenu>
-                                            <MenuItem Header="Copy" Command="{Binding CopyAddressCommand}" CommandParameter="{Binding SelectedAddress}"/>
+                                            <MenuItem Header="Copy" Click="MenuItem_Copy_Click"/>
                                             <MenuItem Header="Get Private Key" Click="MenuItem_GetPrivateKey_Click"/>
                                         </ContextMenu>
                                     </TextBlock.ContextMenu>

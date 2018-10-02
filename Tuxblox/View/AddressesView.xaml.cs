@@ -32,5 +32,18 @@ namespace Tuxblox.View
                 }
             }
         }
+
+        private void MenuItem_Copy_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is AddressesViewModel modelContext)
+            {
+                var item = sender as MenuItem;
+                var itemContext = item.DataContext as AddressEntity;
+                if (itemContext is AddressEntity)
+                {
+                    Clipboard.SetText(itemContext.Address);
+                }
+            }
+        }
     }
 }

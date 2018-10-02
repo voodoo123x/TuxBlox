@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Tuxblox
+﻿namespace Tuxblox
 {
     public class Constants
     {
-        public class Application
+        public static class Application
         {
             public const string Name = "TuxBlox";
-            public const string Version = "0.0.1";
+            public const string Version = "Alpha 1";
         }
     }
 }

@@ -15,6 +15,7 @@ namespace Tuxblox
         private TransactionsView _TransactionsPage;
         private SendView _SendView;
         private AddressesView _AddressView;
+        private BloxDialogView _DialogView;
 
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
@@ -49,7 +50,7 @@ namespace Tuxblox
         {
             if (pageObject == null)
             {
-                pageObject = Activator.CreateInstance(pageType); 
+                pageObject = Activator.CreateInstance(pageType);
             }
 
             frame.Content = (Page)pageObject;

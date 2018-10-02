@@ -1,0 +1,39 @@
+﻿<Window x:Class="Tuxblox.View.BloxDialogView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tuxblox.View"
+        mc:Ignorable="d"
+        WindowStyle="None" WindowStartupLocation="CenterScreen"
+        AllowsTransparency="True" Background="Transparent"
+        BorderThickness="2" BorderBrush="#BBBBBB"
+        Height="250" Width="500"
+        d:DesignHeight="250" d:DesignWidth="500"
+        DataContext="{Binding BloxDialog, Source={StaticResource Locator}}">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Skins/MainSkin.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Style="{DynamicResource MainWindow}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding DialogHeader}" VerticalAlignment="Center" Margin="15"
+                   Style="{DynamicResource MediumHeaderTextBlock}"/>
+        <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding DialogMessage}" VerticalAlignment="Center" Margin="30"
+                   Style="{DynamicResource MediumLargeTextTextBlock}"/>
+        <Button Grid.Column="0" Grid.Row="2" Content="Ok" Command="{Binding ButtonOneCommand}" Style="{DynamicResource SendButton}" Margin="10"/>
+    </Grid>
+</Window>

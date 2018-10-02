@@ -33,6 +33,7 @@ namespace Tuxblox.ViewModel
             SimpleIoc.Default.Register<TransactionsViewModel>();
             SimpleIoc.Default.Register<SendViewModel>();
             SimpleIoc.Default.Register<AddressesViewModel>();
+            SimpleIoc.Default.Register<BloxDialogViewModel>();
         }
 
         /// <summary>
@@ -76,6 +77,14 @@ namespace Tuxblox.ViewModel
         public AddressesViewModel Addresses
         {
             get { return ServiceLocator.Current.GetInstance<AddressesViewModel>(); }
+        }
+
+        /// <summary>
+        /// Gets the BloxDialog property.
+        /// </summary>
+        public BloxDialogViewModel BloxDialog
+        {
+            get { return ServiceLocator.Current.GetInstance<BloxDialogViewModel>(); }
         }
 
         /// <summary>

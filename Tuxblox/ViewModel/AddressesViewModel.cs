@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using Tuxblox.Model;
 using Tuxblox.Model.Entities;
 using Tuxblox.Operations;
@@ -26,6 +27,7 @@ namespace Tuxblox.ViewModel
 
         private string _AddressesViewHeaderText;
         private string _NewAddressLabel;
+        private string _SelectedAddress;
 
         /// <summary>
         /// Gets or sets the AddressesViewHeaderText property.
@@ -60,6 +62,22 @@ namespace Tuxblox.ViewModel
         }
 
         /// <summary>
+        /// Gets or sets the SelectedAddress property.
+        /// </summary>
+        public string SelectedAddress
+        {
+            get { return _SelectedAddress; }
+
+            set
+            {
+                if (_SelectedAddress != value)
+                {
+                    Set(ref _SelectedAddress, value);
+                }
+            }
+        }
+
+        /// <summary>
         /// Initializes a new instance of the AddressesViewModel class.
         /// </summary>
         public AddressesViewModel(IDataService dataService)
@@ -71,7 +89,7 @@ namespace Tuxblox.ViewModel
             {
                 _DataService.GetAddresses((addresses) =>
                 {
-                    lock(_LockObject)
+                    lock (_LockObject)
                     {
                         UpdateAddressList(addresses);
                     }
@@ -79,11 +97,30 @@ namespace Tuxblox.ViewModel
             });
         }
 
+        /// <summary>
+        /// Cleanup view model.
+        /// </summary>
         public override void Cleanup()
         {
             _RefreshWorker.Stop();
 
             base.Cleanup();
+        }
+
+        /// <summary>
+        /// Gets the private for a specified address.
+        /// </summary>
+        /// <param name="address">Address to get private key.</param>
+        public void GetPrivateKey(string address)
+        {
+            var privateKey = string.Empty;
+
+            _DataService.GetPrivateKey(address, (pk) =>
+            {
+                privateKey = pk;
+            });
+
+            Clipboard.SetText(privateKey);
         }
 
         private void UpdateAddressList(IEnumerable<AddressEntity> newAddresses)
@@ -121,7 +158,7 @@ namespace Tuxblox.ViewModel
         private void OnGetNewAddress()
         {
             var newAddress = NodeOperations.GetNewAddress(NewAddressLabel);
-            lock(_LockObject)
+            lock (_LockObject)
             {
                 if (!Addresses.Any(a => string.Equals(a.Address, newAddress.Address, StringComparison.Ordinal)))
                 {
@@ -130,6 +167,25 @@ namespace Tuxblox.ViewModel
             }
 
             NewAddressLabel = string.Empty;
+        }
+
+        private RelayCommand<string> _CopyAddressCommand;
+        public RelayCommand<string> CopyAddressCommand
+        {
+            get
+            {
+                if (_CopyAddressCommand == null)
+                {
+                    _CopyAddressCommand = new RelayCommand<string>(OnCopyAddress);
+                }
+
+                return _CopyAddressCommand;
+            }
+        }
+
+        private void OnCopyAddress(string param)
+        {
+            Clipboard.SetText(param);
         }
 
         #endregion

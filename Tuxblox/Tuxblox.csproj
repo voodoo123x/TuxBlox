@@ -35,6 +35,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>TuxLogo.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net45\CommonServiceLocator.dll</HintPath>
@@ -86,12 +89,16 @@
     <Compile Include="Model\IDataService.cs" />
     <Compile Include="Operations\NodeOperations.cs" />
     <Compile Include="RefreshWorker.cs" />
+    <Compile Include="ViewModel\BloxDialogViewModel.cs" />
     <Compile Include="ViewModel\BalanceViewModel.cs" />
     <Compile Include="ViewModel\SendViewModel.cs" />
     <Compile Include="ViewModel\AddressesViewModel.cs" />
     <Compile Include="ViewModel\TransactionsViewModel.cs" />
     <Compile Include="View\BalanceView.xaml.cs">
       <DependentUpon>BalanceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BloxDialogView.xaml.cs">
+      <DependentUpon>BloxDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SendView.xaml.cs">
       <DependentUpon>SendView.xaml</DependentUpon>
@@ -118,6 +125,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\BalanceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BloxDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -179,6 +190,7 @@
     <Content Include="Daemon\tuxcoind.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="TuxLogo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

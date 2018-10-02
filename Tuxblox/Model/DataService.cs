@@ -43,6 +43,13 @@ namespace Tuxblox.Model
             callback(addresses);
         }
 
+        public void GetPrivateKey(string address, Action<string> callback)
+        {
+            var privateKey = NodeOperations.GetPrivateKey(address);
+
+            callback(privateKey);
+        }
+
         public void CreateTransaction(string address, decimal amount, decimal fee, Action<string> callback)
         {
             var txResult = NodeOperations.CreateTransaction(address, amount, fee);

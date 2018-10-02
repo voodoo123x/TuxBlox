@@ -18,6 +18,10 @@
         <Setter Property="FontSize" Value="24"/>
     </Style>
 
+    <Style x:Key="MediumHeaderTextBlock" TargetType="TextBlock" BasedOn="{StaticResource BaseTextBlock}">
+        <Setter Property="FontSize" Value="32"/>
+    </Style>
+
     <Style x:Key="MediumTextTextBlock" TargetType="TextBlock" BasedOn="{StaticResource BaseTextBlock}">
         <Setter Property="FontSize" Value="14"/>
     </Style>

@@ -16,7 +16,7 @@
             <converters:TxCategoryToPendingMessageConverter x:Key="TxCategoryMessageConverter"/>
 
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="..\Skins/MainSkin.xaml" />
+                <ResourceDictionary Source="../Skins/MainSkin.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
@@ -68,7 +68,7 @@
                                                FontStyle="{Binding IsPending, Converter={StaticResource PendingStyleConverter}}"
                                                Visibility="{Binding IsPending, Converter={StaticResource PendingVisibilityConverter}}"/>
                                 </StackPanel>
-                                
+
                                 <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal">
                                     <TextBlock Text="{Binding TransactionSummary}" Style="{DynamicResource MediumTextTextBlock}" Margin="0,0,10,0"
                                                FontStyle="{Binding IsPending, Converter={StaticResource PendingStyleConverter}}"/>

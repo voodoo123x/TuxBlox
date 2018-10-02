@@ -12,7 +12,7 @@
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="..\Skins/MainSkin.xaml" />
+                <ResourceDictionary Source="../Skins/MainSkin.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
@@ -47,10 +47,30 @@
 
             <DataGrid Grid.Column="0" Grid.Row="1" Margin="0,0,0,10"
                       ItemsSource="{Binding Addresses, Mode=OneWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" Width="500"
-                      Style="{DynamicResource BaseDataGrid}" ColumnHeaderStyle="{DynamicResource BaseColumnHeader}">
+                      Style="{DynamicResource BaseDataGrid}" ColumnHeaderStyle="{DynamicResource BaseColumnHeader}" 
+                      SelectedItem="{Binding SelectedAddress, UpdateSourceTrigger=PropertyChanged}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Label" Binding="{Binding Label}"/>
-                    <DataGridTextColumn Header="Address" Binding="{Binding Address}"/>
+                    <DataGridTemplateColumn Header="Label">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Label}" Style="{DynamicResource BaseTextBlock}" IsHitTestVisible="False" Margin="0,0,20,0"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Address">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Address}" Style="{DynamicResource BaseTextBlock}">
+                                    <TextBlock.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Copy" Command="{Binding CopyAddressCommand}" CommandParameter="{Binding SelectedAddress}"/>
+                                            <MenuItem Header="Get Private Key" Click="MenuItem_GetPrivateKey_Click"/>
+                                        </ContextMenu>
+                                    </TextBlock.ContextMenu>
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

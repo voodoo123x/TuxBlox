@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using Tuxblox.Model.Entities;
 
 namespace Tuxblox.Operations
@@ -164,6 +163,19 @@ namespace Tuxblox.Operations
         }
 
         /// <summary>
+        /// Get private key for specified address.
+        /// </summary>
+        /// <param name="address">Address to dump private key for.</param>
+        /// <returns></returns>
+        public static string GetPrivateKey(string address)
+        {
+            var command = string.Format("dumpprivkey \"{0}\"", address);
+            var cliResult = MakeCliCall(command);
+
+            return Convert.ToString(cliResult);
+        }
+
+        /// <summary>
         /// Verifies that specified address is valid for this network.
         /// </summary>
         /// <param name="address"></param>
@@ -192,7 +204,7 @@ namespace Tuxblox.Operations
 
             var setTxSuccess = string.Equals(Convert.ToString(cliResult), "true", StringComparison.OrdinalIgnoreCase);
             var isAddressValue = IsAddressValid(address);
-            
+
             if (setTxSuccess && isAddressValue)
             {
                 command = string.Format("sendtoaddress \"{0}\" {1}", address, amount);
@@ -257,7 +269,7 @@ namespace Tuxblox.Operations
             var returnString = string.Empty;
 
             cliProc.Start();
-            while(!cliProc.StandardOutput.EndOfStream)
+            while (!cliProc.StandardOutput.EndOfStream)
             {
                 returnString += cliProc.StandardOutput.ReadLine();
             }

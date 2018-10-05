@@ -2,18 +2,30 @@
 
 namespace Tuxblox.Model.Entities
 {
-    public class TransactionEntity
+    public class TransactionEntity : BaseEntity
     {
         private const int MinedMaturity = 101;
         private const int TransactionMaturity = 1;
 
+        private ulong _Confirmations = 0;
+
         public TxCategory Category { get; set; }
         public string Address { get; set; }
         public decimal Amount { get; set; }
-        public ulong Confirmations { get; set; }
         public string BlockHash { get; set; }
         public string TxId { get; set; }
         public ulong TimeReceived { get; set; }
+
+        public ulong Confirmations
+        {
+            get { return _Confirmations; }
+            set
+            {
+                _Confirmations = value;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged("IsPending");
+            }
+        }
 
         /// <summary>
         /// Gets the TransactionSummary.

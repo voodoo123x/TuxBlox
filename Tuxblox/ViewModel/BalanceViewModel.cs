@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using Tuxblox.Model;
+using Tuxblox.Model.Entities;
 
 namespace Tuxblox.ViewModel
 {
@@ -12,7 +13,6 @@ namespace Tuxblox.ViewModel
     public class BalanceViewModel : ViewModelBase
     {
         private readonly IDataService _DataService;
-        private readonly RefreshWorker _RefreshWorker;
 
         private decimal _TotalBalance;
 
@@ -38,21 +38,20 @@ namespace Tuxblox.ViewModel
         {
             _DataService = dataService;
 
-            _RefreshWorker = new RefreshWorker(50, () =>
+            WalletManager.Get().RegisterAction(WalletEvent.BalanceUpdated, () =>
             {
-                _DataService.GetBalance((balance) =>
+                var balance = WalletManager.Get().Value("Balance") as BalanceEntity;
+                var totalBalanceString = string.Format("{0:0.0000}", balance?.TotalBalance ?? 0);
+
+                if (decimal.TryParse(totalBalanceString, out decimal totalbalance))
                 {
-                    var totalBalanceString = string.Format("{0:0.0000}", balance?.TotalBalance ?? 0);
-                    decimal.TryParse(totalBalanceString, out decimal totalBalance);
-                    TotalBalance = totalBalance;
-                });
+                    TotalBalance = totalbalance;
+                }
             });
         }
 
         public override void Cleanup()
         {
-            _RefreshWorker.Stop();
-
             base.Cleanup();
         }
     }

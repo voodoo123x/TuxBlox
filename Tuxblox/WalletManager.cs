@@ -14,6 +14,11 @@ namespace Tuxblox
         private static WalletManager _Instance;
 
         private IDictionary<string, object> _Values = new Dictionary<string, object>();
+        private IList<Action> _AddressChangeActions = new List<Action>();
+        private IList<Action> _BalanceChangeActions = new List<Action>();
+        private IList<Action> _StatusChangeActions = new List<Action>();
+        private IList<Action> _TransactionsChangeActions = new List<Action>();
+
         private IList<Thread> _RefreshThreads;
         private int _WaitTime;
         private bool _FirstLoadComplete;
@@ -41,17 +46,18 @@ namespace Tuxblox
         {
             _RefreshThreads = new List<Thread>();
 
-            _RefreshThreads.Add(new Thread(new ThreadStart(() => Refresh(UpdateWalletBalance))));
-            _RefreshThreads.Add(new Thread(new ThreadStart(() => Refresh(UpdateTransactions))));
-            _RefreshThreads.Add(new Thread(new ThreadStart(() => Refresh(UpdateStatus))));
-            _WaitTime = intervalInMilliseconds;
-
             if (StartDaemon())
             {
-                FirstRun();
+                UpdateAll();
+
+                _RefreshThreads.Add(new Thread(new ThreadStart(() => Refresh(UpdateAddresses))));
+                _RefreshThreads.Add(new Thread(new ThreadStart(() => Refresh(UpdateStatus))));
+                _RefreshThreads.Add(new Thread(new ThreadStart(() => Refresh(UpdateTransactionBalance))));
+                _WaitTime = intervalInMilliseconds;
 
                 foreach (var thread in _RefreshThreads)
                 {
+                    thread.IsBackground = true;
                     thread.Start();
                 }
             }
@@ -98,6 +104,37 @@ namespace Tuxblox
             return returnValue;
         }
 
+        /// <summary>
+        /// Register an action that will be fired when a specified event occurs.
+        /// </summary>
+        /// <param name="eventType"></param>
+        /// <param name="action"></param>
+        public void RegisterAction(WalletEvent eventType, Action action)
+        {
+            switch (eventType)
+            {
+                case WalletEvent.AddressUpdated:
+                    _AddressChangeActions.Add(action);
+                    break;
+
+                case WalletEvent.BalanceUpdated:
+                    _BalanceChangeActions.Add(action);
+                    break;
+
+                case WalletEvent.StatusUpdated:
+                    _StatusChangeActions.Add(action);
+                    break;
+
+                case WalletEvent.TransactionUpdated:
+                    _TransactionsChangeActions.Add(action);
+                    break;
+            }
+
+            ForceUpdate(eventType);
+        }
+
+        #region Private Methods
+
         private bool StartDaemon()
         {
             var foundProcesses = Process.GetProcessesByName(DaemonName);
@@ -126,15 +163,6 @@ namespace Tuxblox
             return true;
         }
 
-        private void FirstRun()
-        {
-            UpdateWalletBalance();
-            UpdateTransactions();
-            UpdateAddresses();
-            UpdateStatus();
-            _FirstLoadComplete = true;
-        }
-
         private void Refresh(Action refreshAction)
         {
             while (true)
@@ -144,28 +172,91 @@ namespace Tuxblox
             }
         }
 
-        private void UpdateWalletBalance()
+        private void UpdateAll()
+        {
+            UpdateTransactionBalance();
+            UpdateAddresses();
+            UpdateStatus();
+
+            _FirstLoadComplete = true;
+
+            FireActions(_BalanceChangeActions);
+            FireActions(_TransactionsChangeActions);
+            FireActions(_AddressChangeActions);
+            FireActions(_StatusChangeActions);
+        }
+
+        private void UpdateTransactionBalance()
         {
             var balance = NodeOperations.GetWalletBalance();
             _Values["Balance"] = balance;
-        }
 
-        private void UpdateTransactions()
-        {
             var transactions = NodeOperations.GetTransactions();
             _Values["Transactions"] = transactions;
+
+            FireActions(_BalanceChangeActions);
+            FireActions(_TransactionsChangeActions);
         }
 
         private void UpdateAddresses()
         {
             var addresses = NodeOperations.GetAddresses();
             _Values["Addresses"] = addresses;
+            FireActions(_AddressChangeActions);
         }
 
         private void UpdateStatus()
         {
             var nodeStatus = NodeOperations.GetNodeStatus();
             _Values["NodeStatus"] = nodeStatus;
+            FireActions(_StatusChangeActions);
         }
+
+        private void ForceUpdate(WalletEvent eventType)
+        {
+            switch (eventType)
+            {
+                case WalletEvent.AddressUpdated:
+                    FireActions(_AddressChangeActions);
+                    break;
+
+                case WalletEvent.BalanceUpdated:
+                    FireActions(_BalanceChangeActions);
+                    break;
+
+                case WalletEvent.StatusUpdated:
+                    FireActions(_StatusChangeActions);
+                    break;
+
+                case WalletEvent.TransactionUpdated:
+                    FireActions(_TransactionsChangeActions);
+                    break;
+            }
+        }
+
+        private void FireActions(IEnumerable<Action> actions)
+        {
+            if (!_FirstLoadComplete)
+            {
+                return;
+            }
+
+            foreach (var action in actions)
+            {
+                var actionThread = new Thread(new ThreadStart(action));
+                actionThread.IsBackground = true;
+                actionThread.Start();
+            }
+        }
+
+        #endregion
+    }
+
+    public enum WalletEvent
+    {
+        AddressUpdated,
+        BalanceUpdated,
+        StatusUpdated,
+        TransactionUpdated
     }
 }

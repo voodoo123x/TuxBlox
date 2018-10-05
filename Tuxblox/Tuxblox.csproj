@@ -83,6 +83,7 @@
     <Compile Include="Converters\TxCategoryToPendingMessageConverter.cs" />
     <Compile Include="Model\DataService.cs" />
     <Compile Include="Model\Entities\AddressEntity.cs" />
+    <Compile Include="Model\Entities\BaseEntity.cs" />
     <Compile Include="Model\Entities\NodeStatusEntity.cs" />
     <Compile Include="Model\Entities\OverviewEntity.cs" />
     <Compile Include="Model\Entities\TransactionEntity.cs" />

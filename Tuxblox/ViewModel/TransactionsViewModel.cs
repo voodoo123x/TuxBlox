@@ -16,7 +16,6 @@ namespace Tuxblox.ViewModel
     public class TransactionsViewModel : ViewModelBase
     {
         private readonly IDataService _DataService;
-        private readonly RefreshWorker _RefreshWorker;
 
         public IList<TransactionEntity> Transactions { get; set; }
 
@@ -46,61 +45,55 @@ namespace Tuxblox.ViewModel
             Transactions = new List<TransactionEntity>();
             _DataService = dataService;
 
-            _RefreshWorker = new RefreshWorker(50, () =>
+            WalletManager.Get().RegisterAction(WalletEvent.TransactionUpdated, () =>
             {
-                _DataService.GetTransactions((transactions) =>
-                {
-                    UpdateTransactionList(transactions);
-                });
+                var transactions = WalletManager.Get().Value("Transactions") as IEnumerable<TransactionEntity>;
+                UpdateTransactionList(transactions);
             });
         }
 
         public override void Cleanup()
         {
-            _RefreshWorker.Stop();
-
             base.Cleanup();
         }
 
         private void UpdateTransactionList(IEnumerable<TransactionEntity> newTxs)
         {
-            if (newTxs.Any())
+            if (newTxs == null)
+            {
+                TransactionViewHeaderText = "No Transactions Found";
+                return;
+            }
+            else if (newTxs.Any())
             {
                 TransactionViewHeaderText = string.Empty;
             }
-            else
-            {
-                TransactionViewHeaderText = "No Transactions Found";
-            }
 
-            if (newTxs == null)
-            {
-                return;
-            }
-
-            var notifyTxChange = false;
+            var newTxAdded = false;
 
             foreach (var tx in newTxs)
             {
                 if (!Transactions.Any(oldTx => string.Equals(oldTx.TxId, tx.TxId, StringComparison.Ordinal)))
                 {
                     Transactions.Add(tx);
-                    notifyTxChange = true;
+                    newTxAdded = true;
                 }
                 else 
                 {
-                    var existingTx = Transactions.First(oldTx => string.Equals(oldTx.TxId, tx.TxId, StringComparison.Ordinal));
-
-                    notifyTxChange = existingTx.Confirmations <= 0 && tx.Confirmations > 0;
-                    existingTx.Confirmations = tx.Confirmations;
+                    var existingTxs = Transactions.Where(oldTx => string.Equals(oldTx.TxId, tx.TxId, StringComparison.Ordinal));
+                    foreach (var existingTx in existingTxs)
+                    {
+                        existingTx.Confirmations = tx.Confirmations;
+                    }
                 }
             }
 
-            if (notifyTxChange)
+            if (newTxAdded)
             {
                 Transactions = Transactions.OrderByDescending(tx => tx.TimeReceived).ToList();
-                RaisePropertyChanged("Transactions");
             }
+
+            RaisePropertyChanged("Transactions");
         }
     }
 }

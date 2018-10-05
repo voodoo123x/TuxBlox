@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using Tuxblox.Model;
+using Tuxblox.Model.Entities;
 
 namespace Tuxblox.ViewModel
 {
@@ -12,7 +13,6 @@ namespace Tuxblox.ViewModel
     public class MainViewModel : ViewModelBase
     {
         private readonly IDataService _DataService;
-        private readonly RefreshWorker _RefreshWorker;
 
         private string _TuxBloxTitle = string.Empty;
         private string _NodeStatus;
@@ -90,21 +90,17 @@ namespace Tuxblox.ViewModel
                 TuxBloxTitle = string.Format($"{name} {version}");
             });
 
-            _RefreshWorker = new RefreshWorker(50, () =>
+            WalletManager.Get().RegisterAction(WalletEvent.StatusUpdated, () =>
             {
-                _DataService.GetNodeStatus((nodeStatus) =>
-                {
-                    NodeStatus = nodeStatus?.Status;
-                    BlockHeight = nodeStatus?.BlockHeight ?? 0;
-                    Connections = nodeStatus?.Connections ?? 0;
-                });
+                var nodeStatus = WalletManager.Get().Value("NodeStatus") as NodeStatusEntity;
+                NodeStatus = nodeStatus?.Status;
+                BlockHeight = nodeStatus?.BlockHeight ?? 0;
+                Connections = nodeStatus?.Connections ?? 0;
             });
         }
 
         public override void Cleanup()
         {
-            _RefreshWorker.Stop();
-
             base.Cleanup();
         }
     }

@@ -39,7 +39,6 @@ namespace Tuxblox.View
             {
                 var item = sender as MenuItem;
                 var itemContext = item.DataContext as AddressEntity;
-
                 if (itemContext is AddressEntity)
                 {
                     Clipboard.SetText(itemContext.Address);

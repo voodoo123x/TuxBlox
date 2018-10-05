@@ -20,7 +20,6 @@ namespace Tuxblox.ViewModel
     public class AddressesViewModel : ViewModelBase
     {
         private readonly IDataService _DataService;
-        private readonly RefreshWorker _RefreshWorker;
         private readonly object _LockObject = new object();
 
         public ObservableCollection<AddressEntity> Addresses { get; set; }
@@ -85,15 +84,10 @@ namespace Tuxblox.ViewModel
             Addresses = new ObservableCollection<AddressEntity>();
             _DataService = dataService;
 
-            _RefreshWorker = new RefreshWorker(50, () =>
+            WalletManager.Get().RegisterAction(WalletEvent.AddressUpdated, () =>
             {
-                _DataService.GetAddresses((addresses) =>
-                {
-                    lock (_LockObject)
-                    {
-                        UpdateAddressList(addresses);
-                    }
-                });
+                var addresses = WalletManager.Get().Value("Addresses") as IEnumerable<AddressEntity>;
+                UpdateAddressList(addresses);
             });
         }
 
@@ -102,8 +96,6 @@ namespace Tuxblox.ViewModel
         /// </summary>
         public override void Cleanup()
         {
-            _RefreshWorker.Stop();
-
             base.Cleanup();
         }
 

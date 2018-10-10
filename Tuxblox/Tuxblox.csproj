@@ -78,8 +78,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Constants.cs" />
-    <Compile Include="Converters\IsPendingToVisibilityConverter.cs" />
-    <Compile Include="Converters\IsPendingToFontStyleConverter.cs" />
+    <Compile Include="Converters\BooleanToInverseVisibilityConverter.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\IsPendingBooleanToFontStyleConverter.cs" />
     <Compile Include="Converters\TxCategoryToPendingMessageConverter.cs" />
     <Compile Include="Model\DataService.cs" />
     <Compile Include="Model\Entities\AddressEntity.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Model\IDataService.cs" />
     <Compile Include="Operations\NodeOperations.cs" />
     <Compile Include="RefreshWorker.cs" />
+    <Compile Include="ViewModel\LoadingViewModel.cs" />
     <Compile Include="ViewModel\BloxDialogViewModel.cs" />
     <Compile Include="ViewModel\BalanceViewModel.cs" />
     <Compile Include="ViewModel\SendViewModel.cs" />
@@ -100,6 +102,9 @@
     </Compile>
     <Compile Include="View\BloxDialogView.xaml.cs">
       <DependentUpon>BloxDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LoadingView.xaml.cs">
+      <DependentUpon>LoadingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SendView.xaml.cs">
       <DependentUpon>SendView.xaml</DependentUpon>
@@ -132,6 +137,10 @@
     <Page Include="View\BloxDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LoadingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\SendView.xaml">
       <SubType>Designer</SubType>

@@ -5,12 +5,12 @@ using System.Windows.Data;
 
 namespace Tuxblox.Converters
 {
-    public class IsPendingToVisibilityConverter : IValueConverter
+    public class BooleanToInverseVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var isPending = (bool)value;
-            if (isPending)
+            if (!isPending)
             {
                 return Visibility.Visible;
             }

@@ -19,10 +19,10 @@ namespace Tuxblox.Model.Entities
         public ulong Confirmations
         {
             get { return _Confirmations; }
+
             set
             {
-                _Confirmations = value;
-                NotifyPropertyChanged();
+                SetValue(ref _Confirmations, value);
                 NotifyPropertyChanged("IsPending");
             }
         }
@@ -103,6 +103,7 @@ namespace Tuxblox.Model.Entities
         Generate,
         Immature,
         Internal,
+        Orphan,
         Receive,
         Send,
         Undefined

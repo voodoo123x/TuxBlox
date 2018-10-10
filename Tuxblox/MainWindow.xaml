@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converters="clr-namespace:Tuxblox.Converters"
         xmlns:ignore="http://www.galasoft.ch/ignore"
         mc:Ignorable="d ignore"
         Height="800" Width="1200"
@@ -13,6 +14,9 @@
         <ResourceDictionary>
             <BitmapImage x:Key="TuxLogoImage" UriSource="/Media/TuxLogo.png"/>
 
+            <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <converters:BooleanToInverseVisibilityConverter x:Key="BooleanToInverseVisibilityConverter"/>
+            
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Skins/MainSkin.xaml"/>
             </ResourceDictionary.MergedDictionaries>
@@ -37,15 +41,15 @@
             <StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,2">
                     <TextBlock Text="Status: " Style="{DynamicResource BaseTextBlock}"/>
-                    <TextBlock Text="{Binding NodeStatus}" Style="{DynamicResource BaseTextBlock}"/>
+                    <TextBlock Text="{Binding NodeStatus.Status}" Style="{DynamicResource BaseTextBlock}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,2">
                     <TextBlock Text="Block Height: " Style="{DynamicResource BaseTextBlock}"/>
-                    <TextBlock Text="{Binding BlockHeight}" Style="{DynamicResource BaseTextBlock}"/>
+                    <TextBlock Text="{Binding NodeStatus.BlockHeight}" Style="{DynamicResource BaseTextBlock}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,2">
                     <TextBlock Text="Connections: " Style="{DynamicResource BaseTextBlock}"/>
-                    <TextBlock Text="{Binding Connections}" Style="{DynamicResource BaseTextBlock}"/>
+                    <TextBlock Text="{Binding NodeStatus.Connections}" Style="{DynamicResource BaseTextBlock}"/>
                 </StackPanel>
             </StackPanel>
         </Grid>
@@ -63,7 +67,10 @@
             </Grid.RowDefinitions>
 
             <Frame Grid.Row="0" x:Name="_BalanceFrame" NavigationUIVisibility="Hidden"/>
-            <Frame Grid.Row="1" x:Name="_ContentFrame" NavigationUIVisibility="Hidden"/>
+            <Frame Grid.Row="1" x:Name="_ContentFrame" NavigationUIVisibility="Hidden" 
+                   Visibility="{Binding IsNodeUpdated, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <Frame Grid.Row="1" x:Name="_LoadingFrame" NavigationUIVisibility="Hidden" 
+                   Visibility="{Binding IsNodeUpdated, Converter={StaticResource BooleanToInverseVisibilityConverter}}"/>
         </Grid>
     </Grid>
 </Window>

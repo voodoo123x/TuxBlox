@@ -5,7 +5,7 @@ using System.Windows.Data;
 
 namespace Tuxblox.Converters
 {
-    public class IsPendingToFontStyleConverter : IValueConverter
+    public class IsPendingBooleanToFontStyleConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

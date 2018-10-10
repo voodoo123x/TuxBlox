@@ -3,11 +3,11 @@
 namespace Tuxblox.View
 {
     /// <summary>
-    /// Interaction logic for SendView.xaml
+    /// Interaction logic for LoadingView.xaml
     /// </summary>
-    public partial class SendView : Page
+    public partial class LoadingView : Page
     {
-        public SendView()
+        public LoadingView()
         {
             InitializeComponent();
         }

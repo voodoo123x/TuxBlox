@@ -11,8 +11,8 @@
 
     <Page.Resources>
         <ResourceDictionary>
-            <converters:IsPendingToFontStyleConverter x:Key="PendingStyleConverter"/>
-            <converters:IsPendingToVisibilityConverter x:Key="PendingVisibilityConverter"/>
+            <converters:IsPendingBooleanToFontStyleConverter x:Key="PendingStyleConverter"/>
+            <converters:BooleanToVisibilityConverter x:Key="PendingVisibilityConverter"/>
             <converters:TxCategoryToPendingMessageConverter x:Key="TxCategoryMessageConverter"/>
 
             <ResourceDictionary.MergedDictionaries>

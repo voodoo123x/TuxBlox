@@ -51,6 +51,7 @@ namespace Tuxblox.Operations
             {
                 Status = status,
                 BlockHeight = blockHeight,
+                Headers = headers,
                 Connections = connections
             };
         }

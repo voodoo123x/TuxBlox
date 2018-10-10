@@ -34,6 +34,7 @@ namespace Tuxblox.ViewModel
             SimpleIoc.Default.Register<SendViewModel>();
             SimpleIoc.Default.Register<AddressesViewModel>();
             SimpleIoc.Default.Register<BloxDialogViewModel>();
+            SimpleIoc.Default.Register<LoadingViewModel>();
         }
 
         /// <summary>
@@ -88,6 +89,14 @@ namespace Tuxblox.ViewModel
         }
 
         /// <summary>
+        /// Gets the Loading property.
+        /// </summary>
+        public LoadingViewModel Loading
+        {
+            get { return ServiceLocator.Current.GetInstance<LoadingViewModel>(); }
+        }
+
+        /// <summary>
         /// Cleans up all the resources.
         /// </summary>
         public static void Cleanup()
@@ -97,6 +106,7 @@ namespace Tuxblox.ViewModel
             ServiceLocator.Current.GetInstance<TransactionsViewModel>().Cleanup();
             ServiceLocator.Current.GetInstance<SendViewModel>().Cleanup();
             ServiceLocator.Current.GetInstance<AddressesViewModel>().Cleanup();
+            ServiceLocator.Current.GetInstance<LoadingViewModel>().Cleanup();
 
             WalletManager.Get().Stop();
         }

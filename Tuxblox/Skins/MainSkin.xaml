@@ -139,4 +139,16 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="FontWeight" Value="Bold"/>
     </Style>
+
+    <Style x:Key="BaseComboBox" TargetType="ComboBox">
+        <Setter Property="Background" Value="{StaticResource DefaultBackgroundBrush}"/>
+        <Setter Property="FontFamily" Value="Consolas"/>
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="Foreground" Value="{StaticResource DefaultForegroundBrush}"/>
+        <Setter Property="Padding" Value="0,2"/>
+    </Style>
+
+    <Style x:Key="BaseItemContainerStyle" TargetType="ComboBoxItem">
+        <Setter Property="Background" Value="{StaticResource DefaultBackgroundBrush}"/>
+    </Style>
 </ResourceDictionary>

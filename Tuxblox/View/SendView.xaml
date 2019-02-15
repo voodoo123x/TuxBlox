@@ -39,29 +39,34 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Column="1" Grid.Row="0" Text="Destination " Style="{DynamicResource MediumLargeTextTextBlock}" Margin="0,5"
+            <TextBlock Grid.Column="1" Grid.Row="0" Text="Send From" Style="{DynamicResource MediumLargeTextTextBlock}" Margin="10,5"
                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding SendAddress, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Margin="0,5"
+            <ComboBox Grid.Column="2" Grid.Row="0" Style="{DynamicResource BaseComboBox}" ItemContainerStyle="{DynamicResource BaseItemContainerStyle}"/>
+            
+            <TextBlock Grid.Column="1" Grid.Row="1" Text="Destination" Style="{DynamicResource MediumLargeTextTextBlock}" Margin="10,5"
+                       HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="2" Grid.Row="1" Text="{Binding SendAddress, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Margin="0,5"
                      Style="{DynamicResource InputTextBox}"/>
 
-            <TextBlock Grid.Column="1" Grid.Row="1" Text="Amount " Style="{DynamicResource MediumLargeTextTextBlock}" Margin="0,5"
+            <TextBlock Grid.Column="1" Grid.Row="2" Text="Amount" Style="{DynamicResource MediumLargeTextTextBlock}" Margin="10,5"
                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <StackPanel Grid.Column="2" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Stretch">
+            <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Stretch">
                 <TextBox Text="{Binding SendAmount, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Margin="0,5,10,5"
                      Style="{DynamicResource InputTextBox}" Width="200"/>
                 <Button Content="Max" Style="{DynamicResource BaseButton}" FontSize="18" Width="50" Margin="0,5" IsTabStop="False"
                         Command="{Binding FillMaxCommand}"/>
             </StackPanel>
 
-            <TextBlock Grid.Column="1" Grid.Row="2" Text="Fee " Style="{DynamicResource MediumLargeTextTextBlock}" Margin="0,5"
+            <TextBlock Grid.Column="1" Grid.Row="3" Text="Fee" Style="{DynamicResource MediumLargeTextTextBlock}" Margin="10,5"
                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="2" Grid.Row="2" Text="{Binding SendFee, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Margin="0,5"
+            <TextBox Grid.Column="2" Grid.Row="3" Text="{Binding SendFee, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Margin="0,5"
                      Style="{DynamicResource InputTextBox}" Width="200" HorizontalAlignment="Left" />
 
-            <Grid Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3" Margin="0,20">
+            <Grid Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4" Margin="0,20">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
